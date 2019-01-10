@@ -1,9 +1,9 @@
 <?php
-namespace Status\App;
+namespace Status\Application;
 
 /**
  * Class VK
- * @package Status\App
+ * @package Status\Application
  */
 class VK
 {
@@ -87,7 +87,7 @@ class VK
     {
         if(!array_key_exists($key, self::$response))
         {
-            throw new \Exception('error response app key');
+            throw new \Exception('error response application key');
         }
 
         return self::$response[$key];

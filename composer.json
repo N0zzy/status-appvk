@@ -11,7 +11,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Status\\AppVK\\": "src/"
+            "Status\\Application\\": "src/"
         }
     },
     "require": {
