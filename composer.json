@@ -1,6 +1,6 @@
 {
-    "name": "n0zzy/status-vkauth",
-    "description": "Auth VK",
+    "name": "n0zzy/status-appvk",
+    "description": "Application VK",
     "license": "MIT",
     "version": "0.1.0",
     "authors": [
@@ -11,7 +11,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Status\\AuthVK\\": "src/"
+            "Status\\AppVK\\": "src/"
         }
     },
     "require": {
