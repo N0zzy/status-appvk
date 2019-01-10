@@ -1,9 +1,9 @@
 <?php
-namespace Status\Application;
+namespace Status\SocialNetwork\Application;
 
 /**
  * Class VK
- * @package Status\Application
+ * @package Status\SocialNetwork\Application
  */
 class VK
 {
