@@ -3,7 +3,7 @@
     "description": "Auth VK",
     "license": "MIT",
     "version": "0.1.0",
-    "minimum-stability": "@dev",
+    "minimum-stability": "dev",
     "authors": [
         {
             "name": "N0zzy",
