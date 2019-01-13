@@ -5,20 +5,29 @@ namespace Status\SocialNetwork\Application;
  * Class VK
  * @package Status\SocialNetwork\Application
  */
-class VK
+final class VK
 {
+    /**
+     * @var array
+     */
+    private static $request = [];
     /**
      * @var
      */
-    private static $response;
-
+    private static $appId;
     /**
-     * @param array $response
+     * @var string
+     */
+    private static $appSecret = '';
+    /**
+     * @param array $request
      * @return VK
      */
-    public static function get(array $response): VK
+    public static function get(Array $request): VK
     {
-        self::$response = $response;
+        self::$request = $request;
+        self::$appId = intval(constant('VK_APP_ID'));
+        self::$appSecret = (string)constant('VK_APP_SECRET');
         return new self();
     }
 
@@ -92,23 +101,39 @@ class VK
      */
     private static function getValueResponse(string $key)
     {
-        if(!array_key_exists($key, self::$response))
+        if(!array_key_exists($key, self::$request))
             throw new \Exception('error response application key');
 
-        return self::$response[$key];
+        return self::$request[$key];
     }
 
     /**
-     * @return bool
+     * @return VK
      * @throws \Exception
      */
-    public function verifity(): VK
+    public function verify(): VK
     {
-        $appId = intval(constant('VK_APP_ID'));
-
-        if(intval($this->aid()) !== $appId AND !empty($appId))
-            throw new \Exception('app id not found');
-
+        $this->verifyAppId();
+        $this->verifyAuthKey();
         return new self();
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function verifyAppId()
+    {
+        if(intval($this->aid()) !== self::$appId AND !empty(self::$appId))
+            throw new \Exception('app id not found');
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function verifyAuthKey()
+    {
+        $auth = md5(self::$appId.'_'.$this->vid().'_'.self::$appSecret);
+        if($this->authKey() !== $auth )
+            throw new \Exception('auth key not found');
     }
 }
