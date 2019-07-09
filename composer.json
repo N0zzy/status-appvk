@@ -12,7 +12,10 @@
     "autoload": {
         "psr-4": {
             "Status\\SocialNetwork\\": "src/"
-        }
+        },
+        "classmap": [
+            "src/"
+        ]
     },
     "require": {
         "php": ">=7.1"
