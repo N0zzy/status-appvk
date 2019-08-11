@@ -19,6 +19,7 @@ final class VK
      * @var string
      */
     private static $appSecret = '';
+
     /**
      * @param array $request
      * @return VK
@@ -26,8 +27,8 @@ final class VK
     public static function get(Array $request): VK
     {
         self::$request = $request;
-        self::$appId = intval(constant('VK_APP_ID'));
-        self::$appSecret = (string)constant('VK_APP_SECRET');
+        self::$appId = intval(env('VK_APP_ID'));
+        self::$appSecret = (string)env('VK_APP_SECRET');
         return new self();
     }
 
@@ -102,7 +103,7 @@ final class VK
     private static function getValueResponse(string $key)
     {
         if(!array_key_exists($key, self::$request))
-            throw new \Exception('error response application key');
+            throw new \Exception('error response application key', 500);
 
         return self::$request[$key];
     }
@@ -124,7 +125,7 @@ final class VK
     private function verifyAppId()
     {
         if(intval($this->aid()) !== self::$appId AND !empty(self::$appId))
-            throw new \Exception('app id not found');
+            throw new \Exception('app id not found', 500);
     }
 
     /**
@@ -134,6 +135,6 @@ final class VK
     {
         $auth = md5(self::$appId.'_'.$this->vid().'_'.self::$appSecret);
         if($this->authKey() !== $auth )
-            throw new \Exception('auth key not found');
+            throw new \Exception('auth key not found', 500);
     }
 }
