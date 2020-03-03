@@ -22,13 +22,14 @@ final class VK
 
     /**
      * @param array $request
+     * @param string $id
      * @return VK
      */
-    public static function get(Array $request): VK
+    public static function get(Array $request, string $id = ''): VK
     {
         self::$request = $request;
-        self::$appId = intval(env('VK_APP_ID'));
-        self::$appSecret = (string)env('VK_APP_SECRET');
+        self::$appId = intval(env('VK'.$id.'_APP_ID'));
+        self::$appSecret = (string)env('VK'.$id.'_APP_SECRET');
         return new self();
     }
 
