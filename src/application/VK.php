@@ -8,6 +8,11 @@ namespace Status\SocialNetwork\Application;
 final class VK
 {
     /**
+     * @var null
+     */
+    private static $profiles = NULL;
+
+    /**
      * @var array
      */
     private static $request = [];
@@ -137,5 +142,48 @@ final class VK
         $auth = md5(self::$appId.'_'.$this->vid().'_'.self::$appSecret);
         if($this->authKey() !== $auth )
             throw new \Exception('auth key not found', 500);
+    }
+
+    /**
+     * @param string $method
+     * @param array $params
+     * @return VK
+     */
+    public static function api(string $method, array $params)
+    {
+        $url = "https://api.vk.com/method/" . $method . '?';
+        $register = ["method", "app_id", "access_token", "platform", "return_friends", "v", "fields"];
+        $uri = [];
+        foreach ($params as $k=>$v){
+            if(in_array($k,$register)){
+                $uri[] = $k.'='.$v;
+            }
+        }
+        $uri = implode("&",$uri);
+        $fgc = file_get_contents($url.$uri);
+        $fgc = !$fgc ? NULL : json_decode($fgc, true);
+
+        if(empty($fgc)){
+            return new self();
+        }
+
+        if(isset($fgc["response"]["profiles"])){
+            self::$profiles = $fgc["response"]["profiles"];
+        }
+
+        return new self();
+    }
+
+    /**
+     * @return null|array
+     */
+    public function getProfiles()
+    {
+        return $this->sortProfiles();
+    }
+
+    private function sortProfiles()
+    {
+        return self::$profiles;
     }
 }
