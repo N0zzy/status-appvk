@@ -62,7 +62,8 @@ final class VK
      */
     public function uid()
     {
-        return self::getValueResponse('user_id');
+        $uid = self::getValueResponse('user_id');
+        return empty($uid) ? $this->vid() : $uid;
     }
 
     /**
@@ -145,22 +146,12 @@ final class VK
     }
 
     /**
-     * @param string $method
-     * @param array $params
+     * @param int $uid
      * @return VK
      */
-    public static function api(string $method, array $params)
+    public static function friends(int $uid)
     {
-        $url = "https://api.vk.com/method/" . $method . '?';
-        $register = ["method", "app_id", "access_token", "platform", "return_friends", "v", "fields"];
-        $uri = [];
-        foreach ($params as $k=>$v){
-            if(in_array($k,$register)){
-                $uri[] = $k.'='.$v;
-            }
-        }
-        $uri = implode("&",$uri);
-        $fgc = file_get_contents($url.$uri);
+        $fgc = @file_get_contents("../factory/storage/friends/".md5('friends'.$uid).".log");
         $fgc = !$fgc ? NULL : json_decode($fgc, true);
 
         if(empty($fgc)){
