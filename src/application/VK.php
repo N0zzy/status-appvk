@@ -146,26 +146,6 @@ final class VK
     }
 
     /**
-     * @param int $uid
-     * @return VK
-     */
-    public static function friends(int $uid)
-    {
-        $fgc = @file_get_contents("../factory/storage/friends/".md5('friends'.$uid).".log");
-        $fgc = !$fgc ? NULL : json_decode($fgc, true);
-
-        if(empty($fgc)){
-            return new self();
-        }
-
-        if(isset($fgc["response"]["profiles"])){
-            self::$profiles = $fgc["response"]["profiles"];
-        }
-
-        return new self();
-    }
-
-    /**
      * @return null|array
      */
     public function getProfiles()
